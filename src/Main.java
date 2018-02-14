@@ -19,7 +19,6 @@ import java.util.*;
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 
-<<<<<<< HEAD
 
 public class Main extends JFrame implements ActionListener{
 
@@ -36,15 +35,5 @@ public class Main extends JFrame implements ActionListener{
 
 
 		}
-=======
-public class Main extends Applet{
-	
-	public void init(){
-		setSize(1024, 768);
-	}
-	
-	public void paint(Graphics g){
-		
-	}
->>>>>>> f883808f9159f654c198fb68832e75e3cc6b9d56
+
 }
