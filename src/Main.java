@@ -21,7 +21,8 @@ import java.text.DecimalFormat;
 
 
 public class Main extends JFrame implements ActionListener{
-
+		String demand;
+		String supply;
 		public static void main(String[] args) {
 			//System.out.println("Read...");
 			Main m = new Main();
@@ -35,5 +36,4 @@ public class Main extends JFrame implements ActionListener{
 
 
 		}
-
 }
