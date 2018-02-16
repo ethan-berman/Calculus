@@ -23,10 +23,16 @@ import java.text.DecimalFormat;
 public class Main extends JFrame implements ActionListener{
 		String demand;
 		String supply;
+		static int quantity_bound;
+		int supply_bound;
 		public static void main(String[] args) {
 			//System.out.println("Read...");
 			Main m = new Main();
-
+			quantity_bound = 20;
+			Equation line = new Equation("3^2",m);
+			for(int i=0;i<line.graph().length;i++){
+				System.out.println(line.graph()[i]);
+			}
 
 		}
 
@@ -36,4 +42,5 @@ public class Main extends JFrame implements ActionListener{
 
 
 		}
+		
 }
