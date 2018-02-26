@@ -28,11 +28,16 @@ public class Main extends JFrame implements ActionListener{
 		public static void main(String[] args) {
 			//System.out.println("Read...");
 			Main m = new Main();
-			quantity_bound = 20;
-			Equation line = new Equation("3^2",m);
-			for(int i=0;i<line.graph().length;i++){
-				System.out.println(line.graph()[i]);
+			quantity_bound = 200;
+			//format for input of equations is k*math.pow(x,eps) 
+			Equation line = new Equation("5*Math.pow(x,-1)",m);
+			for(double i=0.0;i<line.graph(line.curve).length;i += .25){
+				System.out.println(line.graph(line.curve)[(int) (i/.25)]);
 			}
+			//System.out.println(line.integral()[0]);
+			
+			Equation supply = new Equation("5*Math.pow(x,2)", m);
+			
 
 		}
 
