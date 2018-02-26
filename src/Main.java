@@ -31,11 +31,23 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 
 public class Main extends JFrame implements ActionListener{
-
+		String demand;
+		String supply;
+		static int quantity_bound;
+		int supply_bound;
 		public static void main(String[] args) {
 			//System.out.println("Read...");
 			Main m = new Main();
-
+			quantity_bound = 200;
+			//format for input of equations is k*math.pow(x,eps) 
+			Equation line = new Equation("5*Math.pow(x,-1)",m);
+			for(double i=0.0;i<line.graph(line.curve).length;i += .25){
+				System.out.println(line.graph(line.curve)[(int) (i/.25)]);
+			}
+			//System.out.println(line.integral()[0]);
+			
+			Equation supply = new Equation("5*Math.pow(x,2)", m);
+			
 
 		}
 
@@ -47,6 +59,7 @@ public class Main extends JFrame implements ActionListener{
 			ChartPanel chartpanel = new ChartPanel(chart);
 			chartpanel.setDomainZoomable(true);
 			add(chartpanel,BorderLayout.CENTER);
+			
 
 
 
@@ -66,5 +79,5 @@ public class Main extends JFrame implements ActionListener{
 
 
 		}
-
+		
 }
