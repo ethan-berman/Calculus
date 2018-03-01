@@ -25,6 +25,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -39,6 +40,10 @@ public class Main extends JFrame implements ActionListener{
 		int supply_bound;
 		Equation demand;
 		Equation supply;
+		JFreeChart chart;
+		XYSeriesCollection dataset;
+		ChartPanel chartpanel;
+		String[] commodity;
 		//public String petStrings[];
 		public static void main(String[] args) {
 			//System.out.println("Read...");
@@ -50,12 +55,24 @@ public class Main extends JFrame implements ActionListener{
 			
 
 		}
-
 		private void SetUpWindow() {
 			setLayout(new BorderLayout());
+			dataset = new XYSeriesCollection();
+			chart = ChartFactory.createXYLineChart("Supply and Demand", null, null, dataset, PlotOrientation.HORIZONTAL, true, true, true);
+			chartpanel = new ChartPanel(chart);
 			
+			chartpanel.setDomainZoomable(true);
+			add(chartpanel,BorderLayout.CENTER);
 			
-			String[] commodity = {"Tobacco", "Footwear", "Jewelry", "Electricity", "Taxi", "Newspapers", "Movies" };
+			commodity = new String[7];
+			commodity[0] = "Tobacco";
+			commodity[1] = "Footwear";
+			commodity[2] = "Jewelry";
+			commodity[3] = "Electricity";
+			commodity[4] = "Taxi";
+			commodity[5] = "Newspapers";
+			commodity[6] = "Movies";
+			///commodity = ["Tobacco", "Footwear", "Jewelry", "Electricity", "Taxi", "Newspapers", "Movies"];
 			final JComboBox<String> commodityList = new JComboBox<String>(commodity);
 			commodityList.setSelectedIndex(0);
 			commodityList.addActionListener(this);
@@ -67,7 +84,7 @@ public class Main extends JFrame implements ActionListener{
 				demand_constant = 1.005890000; //note this in billions
 			}
 			if(stringCommodity.equals("Footwear")) {
-
+				System.out.println("foot selected");
 			}
 			if(stringCommodity.equals("Jewelry")) {
 
@@ -87,13 +104,10 @@ public class Main extends JFrame implements ActionListener{
 			demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
 			supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
 			System.out.println("ethan");
-			XYSeriesCollection dataset = new XYSeriesCollection();
+			
 			dataset.addSeries(demand.graph(demand.curve));
 			//dataset.addSeries(supply.graph(supply.curve));
-			JFreeChart chart = ChartFactory.createXYLineChart("Supply and Demand", null, null, dataset, PlotOrientation.HORIZONTAL, true, true, true);
-			ChartPanel chartpanel = new ChartPanel(chart);
-			chartpanel.setDomainZoomable(true);
-			add(chartpanel,BorderLayout.CENTER);
+			
 
 			//System.out.println(demand.graph(demand.curve)[1]);
 			//supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
@@ -103,15 +117,25 @@ public class Main extends JFrame implements ActionListener{
 			setVisible(true);
 			
 		}
+		private void updateWindow(){
+			XYPlot plot = (XYPlot) chart.getPlot();
+			XYSeriesCollection new_data = new XYSeriesCollection();
+			
+			demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
+			supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
+			
+			dataset.addSeries(demand.graph(demand.curve));
+			//dataset.addSeries(supply.graph(supply.curve));
+			
+			plot.setDataset(new_data);
+		}
 		private Main()
 		{
 			SetUpWindow();
 		}
 
 		public void actionPerformed(ActionEvent e) {
-
 			System.out.println("Button clicked  " + e.getActionCommand());
-
 			
 
 		}
