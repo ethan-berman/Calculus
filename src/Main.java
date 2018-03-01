@@ -31,10 +31,14 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 
 public class Main extends JFrame implements ActionListener{
-		String demand;
-		String supply;
+		Double demand_elasticity;
+		Double demand_constant;
+		Double supply_constant;
+		Double supply_elasticity;
 		static int quantity_bound;
 		int supply_bound;
+		Equation demand;
+		Equation supply;
 		//public String petStrings[];
 		public static void main(String[] args) {
 			//System.out.println("Read...");
@@ -42,26 +46,16 @@ public class Main extends JFrame implements ActionListener{
 			quantity_bound = 200;
 			//format for input of equations is k*math.pow(x,eps) 
 			Equation line = new Equation("5*Math.pow(x,-1)",m);
-			for(double i=0.0;i<line.graph(line.curve).length;i += .25){
-				//System.out.println(line.graph(line.curve)[(int) (i/.25)]);
-			}
 			//System.out.println(line.integral()[0]);
-			
-			Equation supply = new Equation("5*Math.pow(x,2)", m);
 			
 
 		}
 
 		private void SetUpWindow() {
 			setLayout(new BorderLayout());
-
-			XYSeriesCollection dataset = new XYSeriesCollection();
-			JFreeChart chart = ChartFactory.createXYLineChart("Berman is Stupid", null, null, dataset, PlotOrientation.HORIZONTAL, true, true, true);
-			ChartPanel chartpanel = new ChartPanel(chart);
-			chartpanel.setDomainZoomable(true);
-			add(chartpanel,BorderLayout.CENTER);
-
-			String[] commodity = { "Tobacco", "Footwear", "Jewelry", "Electricity", "Taxi", "Newspapers", "Movies" };
+			
+			
+			String[] commodity = {"Tobacco", "Footwear", "Jewelry", "Electricity", "Taxi", "Newspapers", "Movies" };
 			final JComboBox<String> commodityList = new JComboBox<String>(commodity);
 			commodityList.setSelectedIndex(0);
 			commodityList.addActionListener(this);
@@ -69,7 +63,8 @@ public class Main extends JFrame implements ActionListener{
 			String stringCommodity = (String) commodityList.getSelectedItem();
 
 			if(stringCommodity.equals("Tobacco")) {
-
+				demand_elasticity = -0.4556;
+				demand_constant = 1.005890000; //note this in billions
 			}
 			if(stringCommodity.equals("Footwear")) {
 
@@ -89,11 +84,24 @@ public class Main extends JFrame implements ActionListener{
 			if(stringCommodity.equals("Movies")) {
 
 			}
+			demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
+			supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
+			System.out.println("ethan");
+			XYSeriesCollection dataset = new XYSeriesCollection();
+			dataset.addSeries(demand.graph(demand.curve));
+			//dataset.addSeries(supply.graph(supply.curve));
+			JFreeChart chart = ChartFactory.createXYLineChart("Supply and Demand", null, null, dataset, PlotOrientation.HORIZONTAL, true, true, true);
+			ChartPanel chartpanel = new ChartPanel(chart);
+			chartpanel.setDomainZoomable(true);
+			add(chartpanel,BorderLayout.CENTER);
 
+			//System.out.println(demand.graph(demand.curve)[1]);
+			//supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
+			//after these functions are declared then evaluate and plot the points on the chart
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setSize(600, 600);
 			setVisible(true);
-
+			
 		}
 		private Main()
 		{
