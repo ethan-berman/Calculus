@@ -35,6 +35,7 @@ public class Main extends JFrame implements ActionListener{
 		Double demand_constant;
 		Double supply_constant;
 		Double supply_elasticity;
+		String demand_number;
 		static int quantity_bound;
 		int supply_bound;
 		Equation demand;
@@ -65,23 +66,40 @@ public class Main extends JFrame implements ActionListener{
 			if(stringCommodity.equals("Tobacco")) {
 				demand_elasticity = -0.4556;
 				demand_constant = 1.005890000; //note this in billions
+				demand_number = "in Billions";
 			}
 			if(stringCommodity.equals("Footwear")) {
-
+				demand_elasticity = -0.9135;
+				demand_constant = 4.42665;
+				demand_number = "in Billions";
 			}
 			if(stringCommodity.equals("Jewelry")) {
+				demand_elasticity = -0.41;
+				demand_constant = 4.42665;
+				demand_number = "in Hundred Millions";
 
 			}
 			if(stringCommodity.equals("Electricity")) {
+				demand_elasticity = -0.1289;
+				demand_constant = 3.08597;
+				demand_number = "in Trillions";
 
 			}
 			if(stringCommodity.equals("Taxi")) {
-
+				demand_elasticity = -0.6299;
+				demand_constant = 1.00574;
+				demand_number = "in Billions";
 			}
 			if(stringCommodity.equals("Newspapers")) {
+				demand_elasticity = -0.4185;
+				demand_constant = 2.26812;
+				demand_number = "in Ten Billions";
 
 			}
 			if(stringCommodity.equals("Movies")) {
+				demand_elasticity = -0.8748;
+				demand_constant = 8.72892;
+				demand_number = "in Billions";
 
 			}
 			demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
