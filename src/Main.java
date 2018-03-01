@@ -1,31 +1,15 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.awt.*;
-import java.awt.event.*;
 import java.awt.BorderLayout;
-import java.io.*;
-import java.io.FileWriter;
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.io.File;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import java.util.*;
-import java.lang.reflect.Array;
-import java.text.DecimalFormat;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.xy.XYSeries;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeriesCollection;
 
 
@@ -35,12 +19,18 @@ public class Main extends JFrame implements ActionListener{
 		Double demand_constant;
 		Double supply_constant;
 		Double supply_elasticity;
+		
 		String demand_number;
 	private JComboBox<String> commodityList;
 		static int quantity_bound;
 		int supply_bound;
 		Equation demand;
 		Equation supply;
+		int counter;
+		XYSeriesCollection dataset;
+		JFreeChart chart;
+		
+		
 		//public String petStrings[];
 		public static void main(String[] args) {
 			//System.out.println("Read...");
@@ -49,11 +39,18 @@ public class Main extends JFrame implements ActionListener{
 			//format for input of equations is k*math.pow(x,eps) 
 			Equation line = new Equation("5*Math.pow(x,-1)",m);
 			//System.out.println(line.integral()[0]);
-			
 
 		}
-
+		private void updateWindow(){
+			XYPlot plot = (XYPlot) chart.getPlot();
+			XYSeriesCollection new_data = new XYSeriesCollection();
+			new_data.addSeries(demand.graph(demand.curve));
+			//new_data.addSeries(supply.graph(supply.curve));
+			
+			plot.setDataset(new_data);
+		}
 		private void SetUpWindow() {
+			counter = 0;
 			setLayout(new BorderLayout());
 			
 			
@@ -88,10 +85,10 @@ public class Main extends JFrame implements ActionListener{
 
 		private void printChart()
 		{
-			XYSeriesCollection dataset = new XYSeriesCollection();
+			dataset = new XYSeriesCollection();
 			dataset.addSeries(demand.graph(demand.curve));
 			//dataset.addSeries(supply.graph(supply.curve));
-			JFreeChart chart = ChartFactory.createXYLineChart("Supply and Demand", null, null, dataset, PlotOrientation.HORIZONTAL, true, true, true);
+			chart = ChartFactory.createXYLineChart("Supply and Demand", null, null, dataset, PlotOrientation.HORIZONTAL, true, true, true);
 			ChartPanel chartpanel = new ChartPanel(chart);
 			chartpanel.setDomainZoomable(true);
 			add(chartpanel,BorderLayout.CENTER);
@@ -105,9 +102,9 @@ public class Main extends JFrame implements ActionListener{
 		}
 
 		public void actionPerformed(ActionEvent e) {
-
+			
 			System.out.println("Button clicked  " + e.getActionCommand());
-
+			counter += 1;
 			if(e.getActionCommand().equals("comboBoxChanged")){
 				String stringCommodity = (String) commodityList.getSelectedItem();
 
@@ -117,7 +114,7 @@ public class Main extends JFrame implements ActionListener{
 					demand_number = "in Billions";
 					demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
 					supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
-					printChart();
+					//printChart();
 				}
 				if(stringCommodity.equals("Footwear")) {
 					demand_elasticity = -0.9135;
@@ -125,7 +122,7 @@ public class Main extends JFrame implements ActionListener{
 					demand_number = "in Billions";
 					demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
 					supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
-					printChart();
+					//printChart();
 					
 				}
 				if(stringCommodity.equals("Jewelry")) {
@@ -134,7 +131,7 @@ public class Main extends JFrame implements ActionListener{
 					demand_number = "in Hundred Millions";
 					demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
 					supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
-					printChart();
+					//printChart();
 
 				}
 				if(stringCommodity.equals("Electricity")) {
@@ -143,7 +140,7 @@ public class Main extends JFrame implements ActionListener{
 					demand_number = "in Trillions";
 					demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
 					supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
-					printChart();
+					//printChart();
 
 				}
 				if(stringCommodity.equals("Taxi")) {
@@ -152,7 +149,7 @@ public class Main extends JFrame implements ActionListener{
 					demand_number = "in Billions";
 					demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
 					supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
-					printChart();
+					//printChart();
 				}
 				if(stringCommodity.equals("Newspapers")) {
 					System.out.println("This is new demand:"+demand);
@@ -162,7 +159,7 @@ public class Main extends JFrame implements ActionListener{
 					demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
 					supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
 
-					printChart();
+					//printChart();
 				}
 				if(stringCommodity.equals("Movies")) {
 					demand_elasticity = -0.8748;
@@ -171,12 +168,13 @@ public class Main extends JFrame implements ActionListener{
 					demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
 					supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
 					System.out.println("This is new demand:"+demand);
-					printChart();
+					//printChart();
 
 
 				}
 			}
 
+			updateWindow();
 		}
 		
 }

@@ -23,7 +23,7 @@ public class Equation {
     }
 
     public XYSeries graph(String curve){
-        XYSeries points = new XYSeries(1);
+        XYSeries points = new XYSeries(m.counter);
         for(double i =0.0;i<1;i += 0.01){
             String temp_curve = curve.replaceAll("x", Double.toString(i));;
             
