@@ -34,16 +34,15 @@ public class Equation {
 					
 				}else{
 					points.add(i, Double.parseDouble(result.toString()));
-					System.out.println(Double.parseDouble(result.toString()));
+					//ystem.out.println(Double.parseDouble(result.toString()));
 				}
 				
 			} catch (ScriptException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-            System.out.println("done");
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
-        System.out.println("really done");
+
 		return points;
 		
     }

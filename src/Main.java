@@ -36,6 +36,7 @@ public class Main extends JFrame implements ActionListener{
 		Double supply_constant;
 		Double supply_elasticity;
 		String demand_number;
+	private JComboBox<String> commodityList;
 		static int quantity_bound;
 		int supply_bound;
 		Equation demand;
@@ -57,61 +58,24 @@ public class Main extends JFrame implements ActionListener{
 			
 			
 			String[] commodity = {"Tobacco", "Footwear", "Jewelry", "Electricity", "Taxi", "Newspapers", "Movies" };
-			final JComboBox<String> commodityList = new JComboBox<String>(commodity);
+
+			commodityList = new JComboBox<String>(commodity);
 			commodityList.setSelectedIndex(0);
 			commodityList.addActionListener(this);
 			add(commodityList,BorderLayout.SOUTH);
-			String stringCommodity = (String) commodityList.getSelectedItem();
 
+			String stringCommodity = (String) commodityList.getSelectedItem();
 			if(stringCommodity.equals("Tobacco")) {
 				demand_elasticity = -0.4556;
 				demand_constant = 1.005890000; //note this in billions
 				demand_number = "in Billions";
+				demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
+				supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
 			}
-			if(stringCommodity.equals("Footwear")) {
-				demand_elasticity = -0.9135;
-				demand_constant = 4.42665;
-				demand_number = "in Billions";
-			}
-			if(stringCommodity.equals("Jewelry")) {
-				demand_elasticity = -0.41;
-				demand_constant = 4.42665;
-				demand_number = "in Hundred Millions";
 
-			}
-			if(stringCommodity.equals("Electricity")) {
-				demand_elasticity = -0.1289;
-				demand_constant = 3.08597;
-				demand_number = "in Trillions";
 
-			}
-			if(stringCommodity.equals("Taxi")) {
-				demand_elasticity = -0.6299;
-				demand_constant = 1.00574;
-				demand_number = "in Billions";
-			}
-			if(stringCommodity.equals("Newspapers")) {
-				demand_elasticity = -0.4185;
-				demand_constant = 2.26812;
-				demand_number = "in Ten Billions";
 
-			}
-			if(stringCommodity.equals("Movies")) {
-				demand_elasticity = -0.8748;
-				demand_constant = 8.72892;
-				demand_number = "in Billions";
-
-			}
-			demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
-			supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
-			System.out.println("ethan");
-			XYSeriesCollection dataset = new XYSeriesCollection();
-			dataset.addSeries(demand.graph(demand.curve));
-			//dataset.addSeries(supply.graph(supply.curve));
-			JFreeChart chart = ChartFactory.createXYLineChart("Supply and Demand", null, null, dataset, PlotOrientation.HORIZONTAL, true, true, true);
-			ChartPanel chartpanel = new ChartPanel(chart);
-			chartpanel.setDomainZoomable(true);
-			add(chartpanel,BorderLayout.CENTER);
+			printChart();
 
 			//System.out.println(demand.graph(demand.curve)[1]);
 			//supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
@@ -120,6 +84,20 @@ public class Main extends JFrame implements ActionListener{
 			setSize(600, 600);
 			setVisible(true);
 			
+		}
+
+		private void printChart()
+		{
+			XYSeriesCollection dataset = new XYSeriesCollection();
+			dataset.addSeries(demand.graph(demand.curve));
+			//dataset.addSeries(supply.graph(supply.curve));
+			JFreeChart chart = ChartFactory.createXYLineChart("Supply and Demand", null, null, dataset, PlotOrientation.HORIZONTAL, true, true, true);
+			ChartPanel chartpanel = new ChartPanel(chart);
+			chartpanel.setDomainZoomable(true);
+			add(chartpanel,BorderLayout.CENTER);
+			chartpanel.repaint();
+
+
 		}
 		private Main()
 		{
@@ -130,7 +108,74 @@ public class Main extends JFrame implements ActionListener{
 
 			System.out.println("Button clicked  " + e.getActionCommand());
 
-			
+			if(e.getActionCommand().equals("comboBoxChanged")){
+				String stringCommodity = (String) commodityList.getSelectedItem();
+
+				if(stringCommodity.equals("Tobacco")) {
+					demand_elasticity = -0.4556;
+					demand_constant = 1.005890000; //note this in billions
+					demand_number = "in Billions";
+					demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
+					supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
+					printChart();
+				}
+				if(stringCommodity.equals("Footwear")) {
+					demand_elasticity = -0.9135;
+					demand_constant = 4.42665;
+					demand_number = "in Billions";
+					demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
+					supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
+					printChart();
+					
+				}
+				if(stringCommodity.equals("Jewelry")) {
+					demand_elasticity = -0.41;
+					demand_constant = 4.42665;
+					demand_number = "in Hundred Millions";
+					demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
+					supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
+					printChart();
+
+				}
+				if(stringCommodity.equals("Electricity")) {
+					demand_elasticity = -0.1289;
+					demand_constant = 3.08597;
+					demand_number = "in Trillions";
+					demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
+					supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
+					printChart();
+
+				}
+				if(stringCommodity.equals("Taxi")) {
+					demand_elasticity = -0.6299;
+					demand_constant = 1.00574;
+					demand_number = "in Billions";
+					demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
+					supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
+					printChart();
+				}
+				if(stringCommodity.equals("Newspapers")) {
+					System.out.println("This is new demand:"+demand);
+					demand_elasticity = -0.4185;
+					demand_constant = 2.26812;
+					demand_number = "in Ten Billions";
+					demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
+					supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
+
+					printChart();
+				}
+				if(stringCommodity.equals("Movies")) {
+					demand_elasticity = -0.8748;
+					demand_constant = 8.72892;
+					demand_number = "in Billions";
+					demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this);
+					supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
+					System.out.println("This is new demand:"+demand);
+					printChart();
+
+
+				}
+			}
 
 		}
 		
