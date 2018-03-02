@@ -1,11 +1,15 @@
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-
+import java.awt.Component;
+import java.awt.Dimension;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
+import javax.swing.BoxLayout;
+
+import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -14,6 +18,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYDataItem;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import javax.swing.*;
 
 
 
@@ -28,9 +33,17 @@ public class Main extends JFrame implements ActionListener{
 		int supply_bound;
 		Equation demand;
 		XYSeries sup2;
+		Boolean begin = false;
 		Equation supply;
 		int intersection;
 		Double min_price;
+		JPanel top;
+		JLabel commodityName;
+		JPanel surplus;
+		JLabel consumerSurplus;
+		JLabel producerSurplus;
+		JLabel consumerSurplusLabel;
+		JLabel producerSurplusLabel;
 		Double max_price;
 		XYSeries price_equilibrium;
 		Double current_price;
@@ -82,6 +95,9 @@ public class Main extends JFrame implements ActionListener{
 				new_data.addSeries(new_suptemp);
 				consumer_surp = integral.get((int)(quantity * 100)).getYValue() - integral.get(0).getYValue() - (quantity*current_price);
 				prod_surp = quantity * current_price;
+				consumerSurplus.setText("$ "+Double.toString(consumer_surp)+" "+demand_number);
+				producerSurplus.setText("$ "+Double.toString(prod_surp)+" "+demand_number);
+
 			}else if(checkbox.equals("Footwear")){
 				XYSeries new_suptemp = new XYSeries("Supply");
 				double quantity = 8.77925;
@@ -91,6 +107,8 @@ public class Main extends JFrame implements ActionListener{
 				new_data.addSeries(new_suptemp);
 				consumer_surp = integral.get((int)(quantity * 100)).getYValue() - integral.get(0).getYValue() - (quantity*current_price);
 				prod_surp = quantity * current_price;
+				consumerSurplus.setText("$ "+Double.toString(consumer_surp)+" "+demand_number);
+				producerSurplus.setText("$ "+Double.toString(prod_surp)+" "+demand_number);
 			}else if(checkbox.equals("Jewelry")){
 				XYSeries new_suptemp = new XYSeries("Supply");
 				double quantity = 6.01925;
@@ -100,6 +118,8 @@ public class Main extends JFrame implements ActionListener{
 				new_data.addSeries(new_suptemp);
 				consumer_surp = integral.get((int)(quantity * 100)).getYValue() - integral.get(0).getYValue() - (quantity*current_price);
 				prod_surp = quantity * current_price;
+				consumerSurplus.setText("$ "+Double.toString(consumer_surp)+" "+demand_number);
+				producerSurplus.setText("$ "+Double.toString(prod_surp)+" "+demand_number);
 			}else if(checkbox.equals("Electricity")){
 				XYSeries new_suptemp = new XYSeries("Supply");
 				double quantity = 4.13812;
@@ -109,6 +129,8 @@ public class Main extends JFrame implements ActionListener{
 				new_data.addSeries(new_suptemp);
 				consumer_surp = integral.get((int)(quantity * 100)).getYValue() - integral.get(0).getYValue() - (quantity*current_price);
 				prod_surp = quantity * current_price;
+				consumerSurplus.setText("$ "+Double.toString(consumer_surp)+" "+demand_number);
+				producerSurplus.setText("$ "+Double.toString(prod_surp)+" "+demand_number);
 			}else if(checkbox.equals("Taxi")){
 				XYSeries new_suptemp = new XYSeries("Supply");
 				double quantity = 3.44532;
@@ -117,6 +139,8 @@ public class Main extends JFrame implements ActionListener{
 				}
 				new_data.addSeries(new_suptemp);
 				consumer_surp = integral.get((int)(quantity * 100)).getYValue() - integral.get(0).getYValue() - (quantity*current_price);
+				consumerSurplus.setText("$ "+Double.toString(consumer_surp)+" "+demand_number);
+				producerSurplus.setText("$ "+Double.toString(prod_surp)+" "+demand_number);
 			}else if(checkbox.equals("Newspapers")){
 				XYSeries new_suptemp = new XYSeries("Supply");
 				double quantity = 5.4177;
@@ -126,6 +150,8 @@ public class Main extends JFrame implements ActionListener{
 				new_data.addSeries(new_suptemp);
 				consumer_surp = integral.get((int)(quantity * 100)).getYValue() - integral.get(0).getYValue() - (quantity*current_price);
 				prod_surp = quantity * current_price;
+				consumerSurplus.setText("$ "+Double.toString(consumer_surp)+" "+demand_number);
+				producerSurplus.setText("$ "+Double.toString(prod_surp)+" "+demand_number);
 			}else if(checkbox.equals("Movies")){
 				XYSeries new_suptemp = new XYSeries("Supply");
 				double quantity = 9.77154;
@@ -135,6 +161,8 @@ public class Main extends JFrame implements ActionListener{
 				new_data.addSeries(new_suptemp);
 				consumer_surp = integral.get((int)(quantity * 100)).getYValue() - integral.get(0).getYValue() - (quantity*current_price);
 				prod_surp = quantity * current_price;
+				consumerSurplus.setText("$ "+Double.toString(consumer_surp)+" "+demand_number);
+				producerSurplus.setText("$ "+Double.toString(prod_surp)+" "+demand_number);
 			}
 			if(price_equilibrium != null){
 				new_data.addSeries(price_equilibrium);
@@ -146,6 +174,7 @@ public class Main extends JFrame implements ActionListener{
 			plot.setDataset(new_data);
 			//System.out.println(area_under);
 		}
+
 		private void SetUpWindow() {
 			counter = 100;
 			setLayout(new BorderLayout());
@@ -178,9 +207,42 @@ public class Main extends JFrame implements ActionListener{
 				
 			}
 
+				commodityName = new JLabel("Pick Product Below to Start",SwingConstants.CENTER);
+
+			commodityName.setFont (commodityName.getFont().deriveFont (30.0f));
+			top = new JPanel();
+			GridLayout twobyone = new GridLayout(2,1);
+			BoxLayout boxlayout = new BoxLayout(top, BoxLayout.Y_AXIS);
+			top.setLayout(twobyone);
+			top.setBackground(Color.WHITE);
+			top.setAlignmentX(Component.CENTER_ALIGNMENT);
+			surplus = new JPanel();
+			GridLayout twobytwo = new GridLayout(2,2);
+			surplus.setLayout(twobytwo);
+			surplus.setAlignmentX(Component.CENTER_ALIGNMENT);
+			consumerSurplusLabel = new JLabel("<HTML><U>Consumer Surplus</U></HTML>",SwingConstants.CENTER);
+			producerSurplusLabel = new JLabel("<HTML><U>Producer Surplus</U></HTML>",SwingConstants.CENTER);
+			consumerSurplus = new JLabel();
+			producerSurplus = new JLabel();
+			consumerSurplus.setHorizontalAlignment(SwingConstants.CENTER);
+			producerSurplus.setHorizontalAlignment(SwingConstants.CENTER);
+			surplus.add(consumerSurplusLabel);
+			surplus.add(producerSurplusLabel);
+			surplus.add(consumerSurplus);
+			surplus.add(producerSurplus);
+			surplus.setBackground(Color.WHITE);
+
+			top.add(commodityName);
+			top.add(surplus);
+			add(top,BorderLayout.NORTH);
+
+
+				top.setVisible(true);
+
 
 
 			printChart();
+
 
 			//System.out.println(demand.graph(demand.curve)[1]);
 			//supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this);
@@ -198,8 +260,12 @@ public class Main extends JFrame implements ActionListener{
 			dataset.addSeries(demand.graph(demand.curve));
 			counter+=1;
 			dataset.addSeries(supply.graph(supply.curve));
-			chart = ChartFactory.createXYLineChart("Supply and Demand", null, null, dataset, PlotOrientation.HORIZONTAL, true, true, true);
+			chart = ChartFactory.createXYLineChart("", "Quantity (in Billions)", "Price", dataset, PlotOrientation.HORIZONTAL, true, true, true);
 			ChartPanel chartpanel = new ChartPanel(chart);
+
+
+				chartpanel.setVisible(true);
+
 			chartpanel.setDomainZoomable(true);
 			add(chartpanel,BorderLayout.CENTER);
 			chartpanel.repaint();
@@ -209,6 +275,8 @@ public class Main extends JFrame implements ActionListener{
 		private Main()
 		{
 			SetUpWindow();
+
+
 		}
 
 		public void actionPerformed(ActionEvent e) {
@@ -218,7 +286,7 @@ public class Main extends JFrame implements ActionListener{
 			String stringCommodity = "";
 			if(e.getActionCommand().equals("comboBoxChanged")){
 				stringCommodity = (String) commodityList.getSelectedItem();
-
+				commodityName.setText(stringCommodity);
 				if(stringCommodity.equals("Tobacco")) {
 					demand_elasticity = -0.4556;
 					demand_constant = 1.005890000; //note this in billions
@@ -229,11 +297,15 @@ public class Main extends JFrame implements ActionListener{
 					current_price = .105;
 					for(double i = 0.0; i < 10; i+=.1){
 						temp_series.add(.105, i);
+
 						//temp2.add(2.80112,i);
 					}
+
 					//find intersection point, use integral to find area
 					sup2 = temp2;
 					price_equilibrium = temp_series;
+
+					//commodityName = new JLabel(stringCommodity,SwingConstants.CENTER);
 					//printChart();
 				}
 				if(stringCommodity.equals("Footwear")) {
@@ -249,9 +321,11 @@ public class Main extends JFrame implements ActionListener{
 						temp_series.add(.4726, i);
 					}
 					//find intersection point, use integral to find area
-					
+
 					price_equilibrium = temp_series;
+
 					//printChart();
+					//commodityName = new JLabel(stringCommodity,SwingConstants.CENTER);
 					
 				}
 				if(stringCommodity.equals("Jewelry")) {
@@ -267,7 +341,7 @@ public class Main extends JFrame implements ActionListener{
 					//supply = new Equation(supply_constant + "*Math.pow(x," + supply_elasticity + ")", this, 1);
 					//printChart();
 					price_equilibrium = temp_series;
-					
+					//commodityName = new JLabel(stringCommodity,SwingConstants.CENTER);
 
 				}
 				if(stringCommodity.equals("Electricity")) {
@@ -282,6 +356,7 @@ public class Main extends JFrame implements ActionListener{
 					demand = new Equation(demand_constant + "*Math.pow(x," + demand_elasticity + ")",this, 0);
 					//printChart();
 					price_equilibrium = temp_series;
+					//commodityName = new JLabel(stringCommodity,SwingConstants.CENTER);
 
 				}
 				if(stringCommodity.equals("Taxi")) {
@@ -296,6 +371,8 @@ public class Main extends JFrame implements ActionListener{
 						temp_series.add(.1410, i);
 					}
 					price_equilibrium = temp_series;
+					//commodityName = new JLabel(stringCommodity,SwingConstants.CENTER);
+
 				}
 				if(stringCommodity.equals("Newspapers")) {
 					System.out.println("This is new demand:"+demand);
@@ -309,6 +386,8 @@ public class Main extends JFrame implements ActionListener{
 						temp_series.add(.125, i);
 					}
 					price_equilibrium = temp_series;
+					//commodityName = new JLabel(stringCommodity,SwingConstants.CENTER);
+
 					//printChart();
 				}
 				if(stringCommodity.equals("Movies")) {
@@ -323,6 +402,7 @@ public class Main extends JFrame implements ActionListener{
 						temp_series.add(.879, i);
 					}
 					price_equilibrium = temp_series;
+
 
 				}
 			}
