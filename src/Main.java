@@ -111,7 +111,7 @@ public class Main extends JFrame implements ActionListener{
 				producerSurplus.setText("$ "+Double.toString(prod_surp)+" "+demand_number);
 			}else if(checkbox.equals("Jewelry")){
 				XYSeries new_suptemp = new XYSeries("Supply");
-				double quantity = 6.01925;
+				double quantity = 10.7045;
 				for(double i=0.0;i<10;i++){
 					new_suptemp.add(i,quantity);
 				}
